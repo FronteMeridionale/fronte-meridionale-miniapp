@@ -8,9 +8,14 @@ import StatusBadge from "@/components/StatusBadge";
 import WalletBox from "@/components/WalletBox";
 import SectionTitle from "@/components/SectionTitle";
 import { MOCK_MEMBER, TREASURY_WALLET, TIERS, ROUTES } from "@/lib/constants";
+import { useTelegramUser } from "@/hooks/useTelegramUser";
 
 export default function DashboardPage() {
   const router = useRouter();
+  const { user } = useTelegramUser();
+
+  const displayName = user?.firstName || user?.username || "Utente";
+  const displayId = user?.id && user.id > 0 ? `ID: ${user.id}` : null;
 
   return (
     <div className="relative flex flex-col min-h-screen px-6 py-12 overflow-hidden">
@@ -21,7 +26,10 @@ export default function DashboardPage() {
       </div>
 
       <div className="relative z-10 flex flex-col gap-6 flex-1">
-        <SectionTitle title="Il tuo profilo" subtitle="Membro verificato del Fronte Meridionale" />
+        <SectionTitle
+          title="Il tuo profilo"
+          subtitle={`Ciao, ${displayName}! Membro verificato del Fronte Meridionale`}
+        />
 
         {/* Member info card */}
         <Card>
@@ -39,6 +47,27 @@ export default function DashboardPage() {
             </div>
 
             <div className="h-px bg-white/8" />
+
+            {(user?.username || displayId) && (
+              <>
+                <div>
+                  {user?.username && (
+                    <>
+                      <p className="text-xs text-white/40 uppercase tracking-widest mb-1">
+                        Username Telegram
+                      </p>
+                      <p className="font-mono text-sm text-blue-300">
+                        @{user.username}
+                      </p>
+                    </>
+                  )}
+                  {displayId && (
+                    <p className="text-xs text-white/30 mt-1">{displayId}</p>
+                  )}
+                </div>
+                <div className="h-px bg-white/8" />
+              </>
+            )}
 
             <div>
               <p className="text-xs text-white/40 uppercase tracking-widest mb-1">

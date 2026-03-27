@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import TelegramUserProvider from "@/components/providers/TelegramUserProvider";
 
 export const metadata: Metadata = {
   title: "Fronte Meridionale",
@@ -14,9 +15,11 @@ export default function RootLayout({
   return (
     <html lang="it">
       <body className="bg-[#0B0B0F] min-h-screen antialiased">
-        <main className="min-h-screen max-w-md mx-auto relative">
-          {children}
-        </main>
+        <TelegramUserProvider>
+          <main className="min-h-screen max-w-md mx-auto relative">
+            {children}
+          </main>
+        </TelegramUserProvider>
       </body>
     </html>
   );
