@@ -82,20 +82,32 @@ export default function DashboardPage() {
           </div>
         </Card>
 
-        {/* Connected wallet */}
+        {/* Participation status */}
+        <Card>
+          <div className="flex flex-col gap-3">
+            <p className="text-xs text-white/40 uppercase tracking-widest">
+              Stato partecipazione
+            </p>
+            <p className="text-sm font-semibold text-white">
+              {isConnected ? "Pronto a partecipare" : "Portafoglio non ancora collegato"}
+            </p>
+          </div>
+        </Card>
+
+        {/* Portafoglio Telegram */}
         <WalletBox
           address={isConnected ? walletAddress! : MOCK_MEMBER.wallet}
-          label={isConnected ? "Wallet collegato" : "Wallet collegato (demo)"}
+          label={isConnected ? "Portafoglio Telegram collegato" : "Portafoglio Telegram (demo)"}
         />
 
         {/* Treasury wallet */}
         <Card>
           <p className="text-xs text-white/40 uppercase tracking-widest mb-3">
-            Invia a — Wallet Tesoreria
+            Indirizzo di conferma partecipazione
           </p>
-          <WalletBox address={TREASURY_WALLET} label="Wallet ufficiale FM" />
+          <WalletBox address={TREASURY_WALLET} label="Indirizzo ufficiale FM" />
           <p className="text-xs text-white/40 mt-3 leading-relaxed">
-            Invia TON a questo indirizzo per registrare la tua partecipazione sulla blockchain.
+            La tua partecipazione verrà registrata in modo trasparente e verificabile.
           </p>
         </Card>
 
@@ -125,7 +137,7 @@ export default function DashboardPage() {
           transition={{ delay: 0.4 }}
         >
           <ButtonPrimary onClick={() => router.push(ROUTES.verification)}>
-            Verifica transazione
+            Verifica partecipazione
           </ButtonPrimary>
         </motion.div>
       </div>

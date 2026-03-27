@@ -16,6 +16,8 @@ export const TIERS = [
 export const ROUTES = {
   intro: "/",
   project: "/project",
+  partecipazione: "/partecipazione",
+  portafoglio: "/portafoglio",
   wallet: "/wallet",
   dashboard: "/dashboard",
   verification: "/verification",
