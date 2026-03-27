@@ -75,7 +75,7 @@ export default function ProjectPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
-          <ButtonPrimary onClick={() => router.push(ROUTES.dashboard)}>
+          <ButtonPrimary onClick={() => router.push(ROUTES.wallet)}>
             Collega wallet
           </ButtonPrimary>
         </motion.div>
