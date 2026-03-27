@@ -9,10 +9,12 @@ import WalletBox from "@/components/WalletBox";
 import SectionTitle from "@/components/SectionTitle";
 import { MOCK_MEMBER, TREASURY_WALLET, TIERS, ROUTES } from "@/lib/constants";
 import { useTelegramUser } from "@/hooks/useTelegramUser";
+import { useWallet } from "@/hooks/useWallet";
 
 export default function DashboardPage() {
   const router = useRouter();
   const { user } = useTelegramUser();
+  const { address: walletAddress, isConnected } = useWallet();
 
   const displayName = user?.firstName || user?.username || "Utente";
   const displayId = user?.id && user.id > 0 ? `ID: ${user.id}` : null;
@@ -81,7 +83,10 @@ export default function DashboardPage() {
         </Card>
 
         {/* Connected wallet */}
-        <WalletBox address={MOCK_MEMBER.wallet} label="Wallet collegato" />
+        <WalletBox
+          address={isConnected ? walletAddress! : MOCK_MEMBER.wallet}
+          label={isConnected ? "Wallet collegato" : "Wallet collegato (demo)"}
+        />
 
         {/* Treasury wallet */}
         <Card>
