@@ -10,7 +10,7 @@ import { ROUTES } from "@/lib/constants";
 const paragraphs = [
   "Il Fronte Meridionale nasce per costruire un movimento politico del Mezzogiorno basato sulla partecipazione reale.",
   "Non esistono iscrizioni simboliche.",
-  "La partecipazione avviene attraverso una transazione registrata su blockchain, pubblica e verificabile.",
+  "La partecipazione avviene in modo trasparente e verificabile, dentro Telegram.",
   "La legittimità nasce dalla base.",
 ];
 
@@ -55,14 +55,14 @@ export default function ProjectPage() {
           transition={{ delay: 0.8 }}
           className="flex items-center gap-3 px-1"
         >
-          {["⛓️", "🔍", "✅"].map((icon, i) => (
+          {["📋", "🔍", "✅"].map((icon, i) => (
             <div
               key={i}
               className="flex-1 flex flex-col items-center gap-1 rounded-xl bg-white/5 border border-white/8 py-3"
             >
               <span className="text-xl">{icon}</span>
               <span className="text-white/40 text-xs">
-                {["Blockchain", "Verificabile", "Trasparente"][i]}
+                {["Partecipazione", "Verificabile", "Trasparente"][i]}
               </span>
             </div>
           ))}
@@ -75,8 +75,8 @@ export default function ProjectPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
-          <ButtonPrimary onClick={() => router.push(ROUTES.wallet)}>
-            Collega wallet
+          <ButtonPrimary onClick={() => router.push(ROUTES.partecipazione)}>
+            Continua
           </ButtonPrimary>
         </motion.div>
       </div>

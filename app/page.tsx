@@ -56,7 +56,7 @@ export default function IntroPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
       >
-        <ButtonPrimary onClick={() => router.push(ROUTES.project)}>
+        <ButtonPrimary onClick={() => router.push(ROUTES.partecipazione)}>
           Entra
         </ButtonPrimary>
         <p className="text-center text-white/30 text-xs mt-4">

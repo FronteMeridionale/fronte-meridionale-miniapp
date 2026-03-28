@@ -9,9 +9,9 @@ import ButtonPrimary from "@/components/ButtonPrimary";
 import { ROUTES } from "@/lib/constants";
 
 const steps = [
-  { label: "Transazione ricevuta", done: true },
-  { label: "Conferme blockchain", done: false },
-  { label: "Stato aggiornato", done: false },
+  { label: "Partecipazione ricevuta", done: true },
+  { label: "Registrazione in corso", done: false },
+  { label: "Partecipazione confermata", done: false },
 ];
 
 export default function VerificationPage() {
@@ -26,8 +26,8 @@ export default function VerificationPage() {
 
       <div className="relative z-10 flex flex-col items-center gap-8 flex-1 w-full">
         <SectionTitle
-          title="Verifica in corso"
-          subtitle="Transazione in verifica. Il sistema sta monitorando la blockchain."
+          title="Partecipazione in verifica"
+          subtitle="Il sistema sta verificando la tua partecipazione."
         />
 
         {/* Loader */}
@@ -79,8 +79,8 @@ export default function VerificationPage() {
           transition={{ delay: 0.7 }}
         >
           <p className="text-blue-300 text-xs leading-relaxed text-center">
-            Le transazioni TON richiedono solitamente 1-3 minuti per essere
-            confermate. Puoi tornare in questa schermata in seguito.
+            La conferma della partecipazione richiede solitamente 1–3 minuti.
+            Puoi tornare in questa schermata in seguito.
           </p>
         </motion.div>
 
