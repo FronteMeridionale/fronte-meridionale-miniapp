@@ -5,18 +5,17 @@ import { useRouter } from "next/navigation";
 import ButtonPrimary from "@/components/ButtonPrimary";
 import Card from "@/components/Card";
 import StatusBadge from "@/components/StatusBadge";
-import WalletBox from "@/components/WalletBox";
 import SectionTitle from "@/components/SectionTitle";
-import { MOCK_MEMBER, TREASURY_WALLET, TIERS, ROUTES } from "@/lib/constants";
+import { ROUTES } from "@/lib/constants";
 import { useTelegramUser } from "@/hooks/useTelegramUser";
-import { useWallet } from "@/hooks/useWallet";
+import { useMember } from "@/hooks/useMember";
 
 export default function DashboardPage() {
   const router = useRouter();
   const { user } = useTelegramUser();
-  const { address: walletAddress, isConnected } = useWallet();
+  const { member, nextThreshold } = useMember();
 
-  const displayName = user?.firstName || user?.username || "Utente";
+  const displayName = user?.firstName || user?.username || "Membro";
   const displayId = user?.id && user.id > 0 ? `ID: ${user.id}` : null;
 
   return (
@@ -42,10 +41,10 @@ export default function DashboardPage() {
                   Codice membro
                 </p>
                 <p className="font-mono text-xl font-bold text-white">
-                  {MOCK_MEMBER.member_code}
+                  {member.member_code}
                 </p>
               </div>
-              <StatusBadge status={MOCK_MEMBER.status} />
+              <StatusBadge status={member.status} />
             </div>
 
             <div className="h-px bg-white/8" />
@@ -76,9 +75,41 @@ export default function DashboardPage() {
                 Contributi totali
               </p>
               <p className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">
-                {MOCK_MEMBER.total_contributions}
+                €{member.total_eur_valid.toFixed(2)}
               </p>
             </div>
+
+            {nextThreshold && (
+              <>
+                <div className="h-px bg-white/8" />
+                <div>
+                  <p className="text-xs text-white/40 uppercase tracking-widest mb-1">
+                    Prossima soglia
+                  </p>
+                  <p className="text-sm text-white/70">
+                    €{nextThreshold.min} → {nextThreshold.label}
+                  </p>
+                </div>
+              </>
+            )}
+
+            {member.status === "elector" && member.can_vote_from && (
+              <>
+                <div className="h-px bg-white/8" />
+                <div>
+                  <p className="text-xs text-white/40 uppercase tracking-widest mb-1">
+                    Diritto di voto dal
+                  </p>
+                  <p className="text-sm font-semibold text-violet-300">
+                    {new Date(member.can_vote_from).toLocaleDateString("it-IT", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         </Card>
 
@@ -89,26 +120,11 @@ export default function DashboardPage() {
               Stato partecipazione
             </p>
             <p className="text-sm font-semibold text-white">
-              {isConnected ? "Pronto a partecipare" : "Portafoglio non ancora collegato"}
+              {member.total_eur_valid > 0
+                ? "Partecipazione registrata"
+                : "Nessuna partecipazione registrata"}
             </p>
           </div>
-        </Card>
-
-        {/* Portafoglio Telegram */}
-        <WalletBox
-          address={isConnected ? walletAddress! : MOCK_MEMBER.wallet}
-          label={isConnected ? "Portafoglio Telegram collegato" : "Portafoglio Telegram (demo)"}
-        />
-
-        {/* Treasury wallet */}
-        <Card>
-          <p className="text-xs text-white/40 uppercase tracking-widest mb-3">
-            Indirizzo di conferma partecipazione
-          </p>
-          <WalletBox address={TREASURY_WALLET} label="Indirizzo ufficiale FM" />
-          <p className="text-xs text-white/40 mt-3 leading-relaxed">
-            La tua partecipazione verrà registrata in modo trasparente e verificabile.
-          </p>
         </Card>
 
         {/* Tiers */}
@@ -118,7 +134,10 @@ export default function DashboardPage() {
           transition={{ delay: 0.5 }}
           className="flex gap-3"
         >
-          {TIERS.map((tier) => (
+          {[
+            { min: 1, label: "Sostenitore" },
+            { min: 50, label: "Elettore" },
+          ].map((tier) => (
             <div
               key={tier.label}
               className="flex-1 rounded-xl bg-white/5 border border-white/8 p-3 text-center"
@@ -137,7 +156,7 @@ export default function DashboardPage() {
           transition={{ delay: 0.4 }}
         >
           <ButtonPrimary onClick={() => router.push(ROUTES.verification)}>
-            Verifica partecipazione
+            Stato della partecipazione
           </ButtonPrimary>
         </motion.div>
       </div>

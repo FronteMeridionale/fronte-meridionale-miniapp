@@ -1,8 +1,11 @@
-export const MOCK_MEMBER = {
+import { Member } from "@/lib/types/member";
+
+export const MOCK_MEMBER: Member = {
   member_code: "FM-8K29Q1",
-  wallet: "UQDemoWallet123456789",
-  status: "sostenitore" as const,
-  total_contributions: "€12.50",
+  telegram_user_id: "",
+  wallet_address: "UQDemoWallet123456789",
+  status: "supporter",
+  total_eur_valid: 12.5,
 };
 
 export const TREASURY_WALLET =
