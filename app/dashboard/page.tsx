@@ -5,16 +5,15 @@ import { useRouter } from "next/navigation";
 import ButtonPrimary from "@/components/ButtonPrimary";
 import Card from "@/components/Card";
 import StatusBadge from "@/components/StatusBadge";
-import WalletBox from "@/components/WalletBox";
 import SectionTitle from "@/components/SectionTitle";
-import { MOCK_MEMBER, TREASURY_WALLET, TIERS, ROUTES } from "@/lib/constants";
+import { TIERS, ROUTES } from "@/lib/constants";
 import { useTelegramUser } from "@/hooks/useTelegramUser";
-import { useWallet } from "@/hooks/useWallet";
+import { useMember } from "@/hooks/useMember";
 
 export default function DashboardPage() {
   const router = useRouter();
   const { user } = useTelegramUser();
-  const { address: walletAddress, isConnected } = useWallet();
+  const { member, nextThreshold, isEligibleToVote } = useMember();
 
   const displayName = user?.firstName || user?.username || "Utente";
   const displayId = user?.id && user.id > 0 ? `ID: ${user.id}` : null;
@@ -30,7 +29,7 @@ export default function DashboardPage() {
       <div className="relative z-10 flex flex-col gap-6 flex-1">
         <SectionTitle
           title="Il tuo profilo"
-          subtitle={`Ciao, ${displayName}! Membro verificato del Fronte Meridionale`}
+          subtitle={`Ciao, ${displayName}! Membro del Fronte Meridionale`}
         />
 
         {/* Member info card */}
@@ -42,10 +41,10 @@ export default function DashboardPage() {
                   Codice membro
                 </p>
                 <p className="font-mono text-xl font-bold text-white">
-                  {MOCK_MEMBER.member_code}
+                  {member.member_code}
                 </p>
               </div>
-              <StatusBadge status={MOCK_MEMBER.status} />
+              <StatusBadge status={member.status} />
             </div>
 
             <div className="h-px bg-white/8" />
@@ -76,7 +75,7 @@ export default function DashboardPage() {
                 Contributi totali
               </p>
               <p className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">
-                {MOCK_MEMBER.total_contributions}
+                €{member.total_eur_valid.toFixed(2)}
               </p>
             </div>
           </div>
@@ -89,26 +88,34 @@ export default function DashboardPage() {
               Stato partecipazione
             </p>
             <p className="text-sm font-semibold text-white">
-              {isConnected ? "Pronto a partecipare" : "Portafoglio non ancora collegato"}
+              {member.total_eur_valid > 0
+                ? "Partecipazione registrata"
+                : "In attesa di partecipazione"}
             </p>
+            {nextThreshold !== null && (
+              <p className="text-xs text-white/50">
+                Prossima soglia: €{nextThreshold}
+              </p>
+            )}
           </div>
         </Card>
 
-        {/* Portafoglio Telegram */}
-        <WalletBox
-          address={isConnected ? walletAddress! : MOCK_MEMBER.wallet}
-          label={isConnected ? "Portafoglio Telegram collegato" : "Portafoglio Telegram (demo)"}
-        />
-
-        {/* Treasury wallet */}
+        {/* Vote eligibility */}
         <Card>
-          <p className="text-xs text-white/40 uppercase tracking-widest mb-3">
-            Indirizzo di conferma partecipazione
-          </p>
-          <WalletBox address={TREASURY_WALLET} label="Indirizzo ufficiale FM" />
-          <p className="text-xs text-white/40 mt-3 leading-relaxed">
-            La tua partecipazione verrà registrata in modo trasparente e verificabile.
-          </p>
+          <div className="flex flex-col gap-3">
+            <p className="text-xs text-white/40 uppercase tracking-widest">
+              Diritto di voto
+            </p>
+            <p
+              className={`text-sm font-semibold ${
+                isEligibleToVote ? "text-green-400" : "text-white/50"
+              }`}
+            >
+              {isEligibleToVote
+                ? "✓ Hai diritto di voto"
+                : `Richiede status Elettore (€${TIERS.find((t) => t.label === "Elettore")?.min ?? 50}+)`}
+            </p>
+          </div>
         </Card>
 
         {/* Tiers */}

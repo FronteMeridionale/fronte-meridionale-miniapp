@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation";
 import ButtonPrimary from "@/components/ButtonPrimary";
 import Card from "@/components/Card";
 import SectionTitle from "@/components/SectionTitle";
-import { ROUTES } from "@/lib/constants";
+import { TIERS, ROUTES } from "@/lib/constants";
 
 const features = [
   "Non serve installare nulla",
   "Tutto avviene dentro Telegram",
-  "La partecipazione sarà registrata in modo verificabile",
+  "La tua partecipazione sarà registrata in modo verificabile",
 ];
 
 export default function PartecipazionePage() {
@@ -25,19 +25,23 @@ export default function PartecipazionePage() {
       </div>
 
       <div className="relative z-10 flex flex-col gap-8 flex-1">
-        <SectionTitle title="Partecipa al Fronte Meridionale" />
+        <SectionTitle
+          title="Partecipa al Fronte Meridionale"
+          subtitle="Scegli il livello di partecipazione che fa per te."
+        />
 
-        <Card>
-          <motion.p
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="text-sm text-white/70 leading-relaxed"
-          >
-            La partecipazione al Fronte Meridionale avviene in modo trasparente
-            attraverso il portafoglio già presente in Telegram.
-          </motion.p>
-        </Card>
+        {/* Tiers */}
+        <div className="flex gap-3">
+          {TIERS.map((tier) => (
+            <div
+              key={tier.label}
+              className="flex-1 rounded-xl bg-white/5 border border-white/8 p-4 text-center"
+            >
+              <p className="text-2xl font-bold text-white">€{tier.min}+</p>
+              <p className="text-xs text-white/50 mt-1">{tier.label}</p>
+            </div>
+          ))}
+        </div>
 
         {/* Feature list */}
         <div className="flex flex-col gap-3">
@@ -55,6 +59,19 @@ export default function PartecipazionePage() {
           ))}
         </div>
 
+        <Card>
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="text-sm text-white/70 leading-relaxed"
+          >
+            La partecipazione avviene in modo automatico attraverso
+            l&apos;infrastruttura già disponibile in Telegram. Nessuna azione
+            tecnica richiesta da parte tua.
+          </motion.p>
+        </Card>
+
         <div className="flex-1" />
 
         <motion.div
@@ -62,8 +79,8 @@ export default function PartecipazionePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <ButtonPrimary onClick={() => router.push(ROUTES.portafoglio)}>
-            Continua
+          <ButtonPrimary onClick={() => router.push(ROUTES.dashboard)}>
+            Partecipa
           </ButtonPrimary>
         </motion.div>
       </div>
