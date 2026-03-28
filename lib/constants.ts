@@ -1,8 +1,8 @@
 export const MOCK_MEMBER = {
   member_code: "FM-8K29Q1",
   wallet: "UQDemoWallet123456789",
-  status: "sostenitore" as const,
-  total_contributions: "€12.50",
+  status: "supporter" as const,
+  total_eur_valid: 12.50,
 };
 
 export const TREASURY_WALLET =
@@ -17,8 +17,9 @@ export const ROUTES = {
   intro: "/",
   project: "/project",
   partecipazione: "/partecipazione",
-  portafoglio: "/portafoglio",
-  wallet: "/wallet",
   dashboard: "/dashboard",
   verification: "/verification",
+  // Legacy routes — kept for backward-compat redirect only, not part of main flow
+  portafoglio: "/portafoglio",
+  wallet: "/wallet",
 } as const;
