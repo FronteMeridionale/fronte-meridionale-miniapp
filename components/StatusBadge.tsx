@@ -1,15 +1,20 @@
 "use client";
 
 const STATUS_STYLES: Record<string, { bg: string; text: string; dot: string }> = {
-  sostenitore: {
+  supporter: {
     bg: "bg-blue-500/20 border-blue-500/30",
     text: "text-blue-300",
     dot: "bg-blue-400",
   },
-  elettore: {
+  elector: {
     bg: "bg-violet-500/20 border-violet-500/30",
     text: "text-violet-300",
     dot: "bg-violet-400",
+  },
+  invalid: {
+    bg: "bg-white/10 border-white/20",
+    text: "text-white/50",
+    dot: "bg-white/30",
   },
   default: {
     bg: "bg-white/10 border-white/20",

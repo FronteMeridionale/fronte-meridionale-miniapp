@@ -62,8 +62,8 @@ export default function PartecipazionePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <ButtonPrimary onClick={() => router.push(ROUTES.portafoglio)}>
-            Continua
+          <ButtonPrimary onClick={() => router.push(ROUTES.verification)}>
+            Partecipa
           </ButtonPrimary>
         </motion.div>
       </div>

@@ -1,5 +1,9 @@
 "use client";
 
+// LEGACY: wallet infrastructure only, not in the main UX flow.
+// This provider keeps TON Connect SDK available for potential backend/custodial use,
+// but must NOT be imported by routing or UI files in the main member flow.
+
 import { ReactNode, useCallback } from "react";
 import {
   TonConnectUIProvider,
